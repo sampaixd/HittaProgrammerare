@@ -5,7 +5,7 @@
         <span></span>
         <input v-model="yrke" placeholder="Webbutvecklare">
         <input v-model="ort" placeholder="Stockholm">
-        <button type="button" @click="Search">Hitta programmerare</button>
+        <button type="button" @click="search">Hitta programmerare</button>
     </div>
 </template>
 <script>
@@ -17,17 +17,19 @@ export default {
         }
     },
     methods: {
-        Search(){
+        search(){
+            let yrkeData = this.yrke;
+            let ortData = this.ort;
             if (this.yrke === ""){
-                this.yrke = "webbutvecklare";
+                yrkeData = "webbutvecklare";
             }
             if (this.ort === ""){
-                this.ort = "stockholm";
+                ortData = "stockholm";
             }
 
-            this.$emit("search", this.yrke, this.ort);
+            this.$emit("search", yrkeData, ortData);
 
-        }
+        },
     }
 }
 </script>
@@ -41,12 +43,17 @@ div {
 span {
     display: flex;
     justify-content: center;
-    font-size: 1.5rem;
+    align-items: flex-end;
+    font-size: 1.5vw;
 }
 
 input {
     display: flex;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.5vw;
+}
+
+button{
+    font-size: 1.5vw;
 }
 </style>

@@ -1,25 +1,28 @@
+<script setup>
+import SearchBar from './SearchBar.vue';
+</script>
+
+
 <template>
-
-    <body>
-
+    <header>
         <div class="logo">
-            <img alt="Vue logo" class="logo" src="@/assets/SiggeDrip.jpeg" width="50%" height="50%" />
+            <img alt="Hitta Programmerare logo" class="logo" src="@/assets/SiggeDrip.jpeg"/>
             <h1>Hitta programmerare</h1>
-            <div class="headerLinks">
-                <a href=""></a>
-                <a href=""></a>
-                <a href=""></a>
-            </div>
+            <SearchBar @search="Search" />
         </div>
-    </body>
+    </header>
 </template>
 <script>
 export default {
-
+    methods: {
+        Search(ort, yrke) {
+            this.$emit("search", yrke, ort);
+        }
+    }
 }
 </script>
 <style scoped>
-body {
+header {
     background: rgb(2, 0, 36);
     background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
     color: darkgray;
@@ -45,6 +48,11 @@ a:hover {
     text-decoration: dashed;
     color: lime;
     transition: 1s;
+}
+
+img {
+    width: 15vw;
+    height: 15vw;
 }
 
 .headerLinks {
