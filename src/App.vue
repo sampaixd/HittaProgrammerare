@@ -16,10 +16,6 @@ export default {
   methods: {
     Search(yrke, ort) {
       this.$router.replace(`/search-results/${ort}/${yrke}`);
-      // TODO fixa ett smart sätt att transistiona från yrke x och ort Y
-      // till att ha en meny på filterade resultat, bestäm vilken data
-      // som ska skickas till filterade menyn, vart filtreringen sker
-      // samt hur allting tas till SearchResults.vue
     }
 
   }
