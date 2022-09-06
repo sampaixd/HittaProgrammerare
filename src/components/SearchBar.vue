@@ -13,7 +13,12 @@ export default {
     data() {
         return {
             yrke: "",
-            ort: ""
+            allYrke: ["webbutvecklare", "systemutvecklare", "databasansvarig"],
+            selectedYrke: ["webbutvecklare", "systemutvecklare", "databasansvarig"],
+            ort: "",
+            allOrt: ["stockholm", "borås", "solna"],
+            selectedOrt: ["stockholm", "borås", "solna"]
+
         }
     },
     methods: {
@@ -21,10 +26,10 @@ export default {
             let yrkeData = this.yrke;
             let ortData = this.ort;
             if (this.yrke === ""){
-                yrkeData = "webbutvecklare";
+                yrkeData = "all";
             }
             if (this.ort === ""){
-                ortData = "stockholm";
+                ortData = "all";
             }
 
             this.$emit("search", yrkeData, ortData);

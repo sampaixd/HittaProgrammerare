@@ -32,7 +32,8 @@ export const data = reactive({
             skills: ["assembly", "c", "rust"],
             price: 450000,
             aboutUs: "Ivars infrastruktur fokuserar på binär nivå att skapa en säker " +
-                "och pålitlig plattform."
+                "och pålitlig plattform.",
+            reviews: []
         }
     ],
 
@@ -40,22 +41,32 @@ export const data = reactive({
         this.programmerare.push(name, yrke.toLowerCase, ort.toLowerCase, skills, price, aboutUs)
     },
 
-    addReview(programmerareName, rating, reviewText) {
+    /*addReview(programmerare, rating, reviewText) {
+        let index = this.programmerare.indexOf(programmerare);
+        if (index >= 0) {
+          this.programmerare[index].reviews.push({rating, reviewText});
+        } else {
+          console.error("Error! Trying to add review to non-existing programmer!");
+        }
+      },*/
 
+    addReview(programmerare, rating, reviewText) {
+        console.log("yo");
         let index = 0;
         try {
-            index = this.findProgrammerareIndex(programmerareName);
-        }
-        catch (ReferenceError) {
+            index = this.findProgrammerareIndex(programmerare);
+        } catch (ReferenceError) {
+            console.error("review error: programmerare does not exist");
             return;
         }
-        this.programmerare[index].reviews.push(rating, reviewText);
+        console.log("yo 2");
+        this.programmerare[index].reviews.push({ rating, reviewText });
     },
 
-    calculateReviewScore(programmerareName) {
+    calculateReviewScore(programmerare) {
         let index = 0;
         try {
-            index = this.findProgrammerareIndex(programmerareName);
+            index = this.findProgrammerareIndex(programmerare);
         }
         catch (ReferenceError) {
             return;
@@ -70,11 +81,13 @@ export const data = reactive({
 
     },
 
-    findProgrammerareIndex(programmerareName) {
-        reviewedProgrammerareIndex = this.programmerare.indexOf(programmerareName);
+    findProgrammerareIndex(programmerare) {
+        console.log("programmerare: " + programmerare);
+        console.log("indexof: " + this.programmerare.indexOf(programmerare));
+        let reviewedProgrammerareIndex = this.programmerare.indexOf(programmerare);
         if (reviewedProgrammerareIndex === -1) {
             console.error("review error: programmerare does not exist");
-            throw new ReferenceError;
+            throw new ReferenceError();
         }
         return reviewedProgrammerareIndex;
     },
@@ -83,8 +96,8 @@ export const data = reactive({
         if (isAllSkillsRequired) {
             console.log("all skills");
             return this.programmerare.filter((element) =>
-                element.yrke === yrke.toLowerCase() &&
-                element.ort === ort.toLowerCase() &&
+                element.yrke.indexOf(yrke.toLowerCase()) !== -1 &&
+                element.ort.indexOf(ort.toLowerCase()) !== -1 &&
                 this.filterAllSkillsRequired(element.skills, skills) &&
                 element.price <= price
             );
@@ -92,8 +105,8 @@ export const data = reactive({
         else {
             console.log("en skill");
             return this.programmerare.filter((element) =>
-                element.yrke === yrke.toLowerCase() &&
-                element.ort === ort.toLowerCase() &&
+            element.yrke.indexOf(yrke) !== -1 &&
+            element.ort.indexOf(ort) !== -1 &&
                 this.filterOneSkillRequired(element.skills, skills) &&
                 element.price <= price
             );
