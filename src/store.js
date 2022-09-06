@@ -92,14 +92,15 @@ export const data = reactive({
         return reviewedProgrammerareIndex;
     },
 
-    getFilteredResults(yrke, ort, skills, price, isAllSkillsRequired) {
+    getFilteredResults(yrke, ort, skills, minPrice, maxPrice, isAllSkillsRequired) {
         if (isAllSkillsRequired) {
             console.log("all skills");
             return this.programmerare.filter((element) =>
                 element.yrke.indexOf(yrke.toLowerCase()) !== -1 &&
                 element.ort.indexOf(ort.toLowerCase()) !== -1 &&
                 this.filterAllSkillsRequired(element.skills, skills) &&
-                element.price <= price
+                element.price <= maxPrice &&
+                element.price >= minPrice
             );
         }
         else {
@@ -108,7 +109,8 @@ export const data = reactive({
             element.yrke.indexOf(yrke) !== -1 &&
             element.ort.indexOf(ort) !== -1 &&
                 this.filterOneSkillRequired(element.skills, skills) &&
-                element.price <= price
+                element.price <= maxPrice &&
+                element.price >= minPrice
             );
         }
 

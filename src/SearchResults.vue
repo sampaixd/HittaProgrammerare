@@ -6,8 +6,11 @@ import FilterTable from './components/FilterTable.vue';
 <template>
     <div class="body">
         <div class="filterTable">
-            <FilterTable @skillChanged="filterSkill" @priceChanged="filterPrice"
-                @allSkillsRequiredSwitch="allSkillsRequiredSwitch" />
+            <FilterTable 
+            @skillChanged="filterSkill" 
+            @minPriceChange="changeMinPrice"
+            @maxPriceChange="changeMaxPrice"
+            @allSkillsRequiredSwitch="allSkillsRequiredSwitch" />
         </div>
         <div v-if="programmerare.length > 0">
             <div v-for="prog in programmerare" class="programmerare">
@@ -80,7 +83,8 @@ export default {
                     "vue",
                     "svelte",
                     "react"],
-            price: 100000000,
+            minPrice: 0,
+            maxPrice: 100000000,
             isAllSkillsRequired: false,
             programmerare: [],
             currentReviewProg: "",
@@ -116,16 +120,24 @@ export default {
             this.updateList();
         },
 
-        filterPrice(newPrice) {
-            this.price = newPrice;
+        changeMinPrice(newPrice) {
+            this.minPrice = newPrice;
+            console.log("new minprice: " + this.minPrice);
             this.updateList();
         },
+
+        changeMaxPrice(newPrice) {
+            this.maxPrice = newPrice;
+            console.log("new maxprice: " + this.maxPrice);
+            this.updateList();
+        },
+
         allSkillsRequiredSwitch() {
             this.isAllSkillsRequired = !this.isAllSkillsRequired;
             this.updateList();
         },
         updateList() {
-            this.programmerare = data.getFilteredResults(this.yrke, this.ort, this.selectedSkills, this.price, this.isAllSkillsRequired);
+            this.programmerare = data.getFilteredResults(this.yrke, this.ort, this.selectedSkills, this.minPrice, this.maxPrice, this.isAllSkillsRequired);
         },
 
         avgRating(progreviews) {

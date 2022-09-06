@@ -1,7 +1,17 @@
 <template>
     <footer>
-        <div>
-            <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident perferendis vitae debitis? Iusto accusantium facere, atque voluptatem esse deleniti consequuntur eos unde accusamus vitae tenetur sapiente omnis pariatur aut itaque?</span>
+        <div class="content">
+            <span>info</span>
+            <span>weee</span>
+            <span>wooo</span>
+            <span>waaa</span>
+
+        </div>
+        <div class="content">
+            <span>om oss</span>
+            <span>kontakt</span>
+            <span>beep</span>
+            <span>boop</span>
         </div>
     </footer>
 </template>
@@ -15,6 +25,16 @@ footer {
     background: rgb(2, 0, 36);
     background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
     color: darkgray;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.content {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
 
 }
 </style>

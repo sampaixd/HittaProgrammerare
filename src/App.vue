@@ -8,7 +8,7 @@ import TheFooter from './components/TheFooter.vue'
 <template>
   <TheHeader @search="Search" />
   <RouterView />
-  <TheFooter/>
+  <TheFooter class="footer"/>
 </template>
 
 <script>
@@ -23,4 +23,11 @@ export default {
 </script>
 
 <style scoped>
+  .footer {
+    display: flex;
+    align-items: flex-end;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+  }
 </style>
