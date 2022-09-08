@@ -1,16 +1,20 @@
 <script setup>
-import { data } from './store.js';
-import FilterTable from './components/FilterTable.vue';
+import { data } from '../store.js';
+import FilterTable from './FilterTable.vue';
 </script>
 
 <template>
     <div class="body">
         <div class="filterTable">
-            <FilterTable 
-            @skillChanged="filterSkill" 
-            @minPriceChange="changeMinPrice"
-            @maxPriceChange="changeMaxPrice"
-            @allSkillsRequiredSwitch="allSkillsRequiredSwitch" />
+            <span>Sortera efter</span>
+            <select v-model="sort" @change="updateSort">
+                <option value="reviews-false">Recensioner högt-lågt</option>
+                <option value="reviews-true">Recensioner lågt-högt</option>
+                <option value="price-false">Pris högt-lågt</option>
+                <option value="price-true">Pris lågt-högt</option>
+            </select>
+            <FilterTable @skillChanged="filterSkill" @minPriceChange="changeMinPrice" @maxPriceChange="changeMaxPrice"
+                @allSkillsRequiredSwitch="allSkillsRequiredSwitch" />
         </div>
         <div v-if="programmerare.length > 0">
             <div v-for="prog in programmerare" class="programmerare">
@@ -27,19 +31,20 @@ import FilterTable from './components/FilterTable.vue';
 
                 <div class="programmerarecolumn">
                     <span>genomsnittlig recensionspoäng: {{ avgRating(prog.reviews) }}</span>
-                    <button v-if="prog.reviews.length > 0 && showReviewsProg !== prog" @click="showReviews(prog)">Visa recensioner</button>
+                    <button v-if="prog.reviews.length > 0 && showReviewsProg !== prog" @click="showReviews(prog)">Visa
+                        recensioner</button>
                     <button v-else-if="showReviewsProg === prog" @click="hideReviews">Dölj recensioner</button>
                     <span v-else></span>
                     <button v-if="prog !== currentReviewProg" type="button" @click="beginReview(prog)">lämna en
                         recension</button>
                     <button v-else type="button" @click="cancelReview">avbryt recension</button>
                 </div>
-                <div v-if="prog === showReviewsProg" >
-                    <div  v-for="review in prog.reviews" class="programmerarecolumn">
-                     <span>poäng: {{review.rating}}</span>
-                     <span v-if="review.reviewText !== ''">beskrivning: {{review.reviewText}}</span>
-                     <span v-else>beskrivning saknas</span>
-                     <span></span>
+                <div v-if="prog === showReviewsProg">
+                    <div v-for="review in prog.reviews" class="programmerarecolumn">
+                        <span>poäng: {{ review.rating }}</span>
+                        <span v-if="review.reviewText !== ''">beskrivning: {{ review.reviewText }}</span>
+                        <span v-else>beskrivning saknas</span>
+                        <span></span>
                     </div>
                 </div>
                 <div v-if="prog === currentReviewProg" class="programmerarecolumn">
@@ -70,6 +75,7 @@ export default {
             loading: false,
             yrke: "",
             ort: "",
+            sort: "",
             selectedSkills:
                 ["assembly",
                     "c",
@@ -101,7 +107,7 @@ export default {
                 this.ort = toParams.yrke;
                 if (this.ort === "all") {
                     this.ort = "";
-                } 
+                }
                 if (this.yrke === "all") {
                     this.yrke = "";
                 }
@@ -136,6 +142,44 @@ export default {
             this.isAllSkillsRequired = !this.isAllSkillsRequired;
             this.updateList();
         },
+
+        updateSort() {
+            let sortOptions = this.sort.split('-');
+            if (sortOptions[0] === "reviews") {
+                this.sortByRating(sortOptions[1] === "true");
+            } else {
+                this.sortByPrice(sortOptions[1] === "true");
+            }
+        },
+
+        sortByRating(isReversed) {
+            let reverseResult = this.getReversedValue(isReversed);
+            this.programmerare.sort((a, b) => {
+                if (this.avgRating(a.reviews) > this.avgRating(b.reviews)) {
+                    return -1 * reverseResult;
+                } else if (this.avgRating(a.reviews) < this.avgRating(b.reviews)) {
+                    return 1 * reverseResult;
+                }
+                return 0;
+            });
+        },
+
+        sortByPrice(isReversed) {
+            let reverseResult = this.getReversedValue(isReversed);
+            this.programmerare.sort((a, b) => {
+                if (a.price > b.price) {
+                    return -1 * reverseResult;
+                } else if (a.price < b.price) {
+                    return 1 * reverseResult;
+                }
+                return 0;
+            })
+        },
+
+        getReversedValue(isReversed) {
+            return isReversed ? -1 : 1;
+        },
+
         updateList() {
             this.programmerare = data.getFilteredResults(this.yrke, this.ort, this.selectedSkills, this.minPrice, this.maxPrice, this.isAllSkillsRequired);
         },
@@ -184,7 +228,7 @@ export default {
 <style scoped>
 .body {
     display: grid;
-    grid-template-columns: 1fr 4fr;
+    grid-template-columns: 1fr 5fr;
     margin: 0px;
 }
 
@@ -192,6 +236,7 @@ export default {
     background: rgb(34, 193, 195);
     background: linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(46, 45, 253, 1) 100%);
     display: flex;
+    flex-direction: column;
 
 }
 

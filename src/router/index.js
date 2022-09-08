@@ -13,7 +13,7 @@ const router = createRouter({
     {
       path: '/search-results/:ort/:yrke',
       name: 'search-results',
-      component: () => import('../SearchResults.vue')
+      component: () => import('../components/SearchResults.vue')
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.

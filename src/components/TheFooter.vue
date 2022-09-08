@@ -8,9 +8,9 @@
 
         </div>
         <div class="content">
-            <span>om oss</span>
             <span>kontakt</span>
-            <span>beep</span>
+            <span>billgatesreal113@gmail.com</span>
+            <span>071 483 12 34</span>
             <span>boop</span>
         </div>
     </footer>

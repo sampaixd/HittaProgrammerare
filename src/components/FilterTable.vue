@@ -6,7 +6,7 @@
         <div>
             <div>
                 <input type="checkbox" @click="allSkillsRequiredSwitch">
-                <span>Alla skills krävs</span>
+                <span>Alla utvalda skills krävs</span>
             </div>
             <span>System skills</span>
             <div v-for="skill in systemSkills">
