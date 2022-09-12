@@ -1,11 +1,13 @@
 <template>
     <div>
-        <span>Yrke</span>
-        <span>Ort</span>
-        <span></span>
-        <input v-model="yrke" placeholder="Webbutvecklare">
-        <input v-model="ort" placeholder="Stockholm">
-        <button type="button" @click="search">Hitta programmerare</button>
+        <form class="searchForm" @submit.prevent="search">
+            <span>Yrke</span>
+            <span>Ort</span>
+            <span></span>
+            <input v-model="yrke">
+            <input v-model="ort">
+            <button type="submit" @click="search">Hitta programmerare</button>
+        </form>
     </div>
 </template>
 <script>
@@ -22,13 +24,13 @@ export default {
         }
     },
     methods: {
-        search(){
+        search() {
             let yrkeData = this.yrke;
             let ortData = this.ort;
-            if (this.yrke === ""){
+            if (this.yrke === "") {
                 yrkeData = "all";
             }
-            if (this.ort === ""){
+            if (this.ort === "") {
                 ortData = "all";
             }
 
@@ -39,7 +41,7 @@ export default {
 }
 </script>
 <style scoped>
-div {
+.searchForm {
     display: grid;
     grid-template-columns: 2fr 2fr 1fr;
     grid-template-rows: 1fr 1fr;
@@ -58,7 +60,7 @@ input {
     font-size: 1.5vw;
 }
 
-button{
+button {
     font-size: 1.5vw;
 }
 </style>

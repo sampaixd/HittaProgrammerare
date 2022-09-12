@@ -93,11 +93,13 @@ export const data = reactive({
     },
 
     getFilteredResults(yrke, ort, skills, minPrice, maxPrice, isAllSkillsRequired) {
+        yrke = yrke.toLowerCase();
+        ort = ort.toLowerCase();
         if (isAllSkillsRequired) {
             console.log("all skills");
             return this.programmerare.filter((element) =>
-                element.yrke.indexOf(yrke.toLowerCase()) !== -1 &&
-                element.ort.indexOf(ort.toLowerCase()) !== -1 &&
+                element.yrke.includes(yrke) &&
+                element.ort.includes(ort) &&
                 this.filterAllSkillsRequired(element.skills, skills) &&
                 element.price <= maxPrice &&
                 element.price >= minPrice
@@ -106,8 +108,8 @@ export const data = reactive({
         else {
             console.log("en skill");
             return this.programmerare.filter((element) =>
-            element.yrke.indexOf(yrke) !== -1 &&
-            element.ort.indexOf(ort) !== -1 &&
+                element.yrke.includes(yrke) &&
+                element.ort.includes(ort) &&
                 this.filterOneSkillRequired(element.skills, skills) &&
                 element.price <= maxPrice &&
                 element.price >= minPrice

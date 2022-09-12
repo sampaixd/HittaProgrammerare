@@ -14,7 +14,7 @@ import FilterTable from './FilterTable.vue';
                 <option value="price-true">Pris lågt-högt</option>
             </select>
             <FilterTable @skillChanged="filterSkill" @minPriceChange="changeMinPrice" @maxPriceChange="changeMaxPrice"
-                @allSkillsRequiredSwitch="allSkillsRequiredSwitch" />
+                @allSkillsRequiredSwitch="allSkillsRequiredSwitch" @toggleAllSkills="toggleAllSkills" />
         </div>
         <div v-if="programmerare.length > 0">
             <div v-for="prog in programmerare" class="programmerare">
@@ -73,8 +73,8 @@ export default {
     data() {
         return {
             loading: false,
-            yrke: "",
-            ort: "",
+            yrke: this.$route.params.ort === "all" ? "" : this.$route.params.ort,
+            ort: this.$route.params.yrke === "all" ? "" : this.$route.params.yrke,
             sort: "",
             selectedSkills:
                 ["assembly",
@@ -100,6 +100,7 @@ export default {
         }
     },
     created() {
+        this.updateList();
         this.$watch(
             () => this.$route.params,
             (toParams) => {
@@ -115,6 +116,10 @@ export default {
             });
     },
     methods: {
+        toggleAllSkills(skills) {
+            this.selectedSkills = [...skills];
+        },
+
         filterSkill(selectedSkill) {
 
             let selectedSkillIndex = this.selectedSkills.indexOf(selectedSkill);
@@ -233,8 +238,8 @@ export default {
 }
 
 .filterTable {
-    background: rgb(34, 193, 195);
-    background: linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(46, 45, 253, 1) 100%);
+    color: white;
+    background: rgba(9, 9, 121, 1);
     display: flex;
     flex-direction: column;
 
