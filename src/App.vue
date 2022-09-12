@@ -6,7 +6,7 @@ import TheFooter from './components/TheFooter.vue'
 </script>
 
 <template>
-  <TheHeader @search="Search" />
+  <TheHeader @search="Search" @login="login"/>
   <RouterView />
   <TheFooter class="footer"/>
 </template>
@@ -16,6 +16,10 @@ export default {
   methods: {
     Search(yrke, ort) {
       this.$router.replace(`/search-results/${ort}/${yrke}`);
+    },
+    login() {
+      console.log("woo");
+      this.$router.replace('/login');
     }
 
   }

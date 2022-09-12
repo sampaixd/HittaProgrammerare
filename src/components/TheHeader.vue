@@ -8,7 +8,7 @@ import SearchBar from './SearchBar.vue';
         <div class="logo">
             <img alt="Hitta Programmerare logo" class="logo" src="@/assets/SiggeDrip.jpeg"/>
             <h1>Hitta programmerare</h1>
-            <SearchBar @search="Search" />
+            <SearchBar @search="Search" @login="login" />
         </div>
     </header>
 </template>
@@ -17,6 +17,9 @@ export default {
     methods: {
         Search(ort, yrke) {
             this.$emit("search", yrke, ort);
+        },
+        login() {
+            this.$emit("login");
         }
     }
 }

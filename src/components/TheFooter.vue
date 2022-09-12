@@ -10,7 +10,7 @@
         <div class="content">
             <span>kontakt</span>
             <span>billgatesreal113@gmail.com</span>
-            <span>071 483 12 34</span>
+            <span>08-733 04 55</span>
             <span>boop</span>
         </div>
     </footer>

@@ -104,6 +104,7 @@ export default {
         this.$watch(
             () => this.$route.params,
             (toParams) => {
+                if (!toParams.ort) { return; }
                 this.yrke = toParams.ort;   // for some reason they are swapped, might look into this later
                 this.ort = toParams.yrke;
                 if (this.ort === "all") {
