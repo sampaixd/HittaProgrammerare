@@ -1,19 +1,27 @@
 <script setup>
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@firebase/auth';
-import {useRouter} from 'vue-router';
+import { useRouter } from 'vue-router';
 import router from '../router';
 </script>
 <template>
     <div>
-        <h1 v-if="isNewUser">Skapa nytt konto</h1>
-        <h1 v-else>Logga in</h1>
-        <input type="email" v-model="email" placeholder="Email">
-        <input type="password" v-model="password" placeholder="Lösenord">
-        <span v-if="errorMsg"> {{errorMsg}} </span>
-        <button type="button" @click="createUser" v-if="isNewUser">Skapa konto</button>
-        <button type="button" @click="login" v-else>Logga in</button>
-        <button type="button" @click="toggleIsNewUser" v-if="isNewUser">Har du redan ett konto? Logga in här</button>
-        <button type="button" @click="toggleIsNewUser" v-else>Har du inget konto? Skapa konto här</button>
+        <form v-if="isNewUser" @submit.prevent="createUser">
+            <h1>Skapa nytt konto</h1>
+            <input type="email" v-model="email" placeholder="Email">
+            <input type="password" v-model="password" placeholder="Lösenord">
+            <span v-if="errorMsg"> {{errorMsg}} </span>
+            <button type="button" @click="createUser">Skapa konto</button>
+            <button type="button" @click="toggleIsNewUser">Har du redan ett konto? Logga in
+                här</button>
+        </form>
+        <form v-else @submit.prevent="login">
+            <h1>Logga in</h1>
+            <input type="email" v-model="email" placeholder="Email">
+            <input type="password" v-model="password" placeholder="Lösenord">
+            <span v-if="errorMsg"> {{errorMsg}} </span>
+            <button type="button" @click="login">Logga in</button>
+            <button type="button" @click="toggleIsNewUser">Har du inget konto? Skapa konto här</button>
+        </form>
     </div>
 </template>
 <script>
@@ -23,7 +31,7 @@ export default {
             email: "",
             password: "",
             errorMsg: "",
-            isNewUser: false
+            isNewUser: false,
         }
     },
     methods: {
@@ -56,7 +64,17 @@ export default {
         },
         createUser() {
             const auth = getAuth();
-            createUserWithEmailAndPassword(auth, this.email, this.password);
+            createUserWithEmailAndPassword(auth, this.email, this.password)
+                .then(user => {
+                    this.errorMsg = "Konto skapat";
+                })
+                .catch(error => {
+                    switch (error.code) {
+                        case "auth/email-in-use":
+                            this.errorMsg = "mailen används redan";
+                            break;
+                    }
+                });
         },
 
         toggleIsNewUser() {
@@ -66,7 +84,7 @@ export default {
 }
 </script>
 <style scoped>
-div {
+form {
     padding: 1.5rem;
     margin: 1.5rem;
     row-gap: 1vw;

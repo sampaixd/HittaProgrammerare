@@ -16,7 +16,10 @@ import FilterTable from './FilterTable.vue';
             <FilterTable @skillChanged="filterSkill" @minPriceChange="changeMinPrice" @maxPriceChange="changeMaxPrice"
                 @allSkillsRequiredSwitch="allSkillsRequiredSwitch" @toggleAllSkills="toggleAllSkills" />
         </div>
-        <div v-if="programmerare.length > 0">
+        <div v-if="!data.programmerareIsLoaded" class="emptyList">
+            <span>Laddar programmerare...</span>
+        </div>
+        <div v-else-if="programmerare.length > 0">
             <div v-for="prog in programmerare" class="programmerare">
                 <div class="programmerarecolumn">
                     <span>namn: {{ prog.name }}</span>

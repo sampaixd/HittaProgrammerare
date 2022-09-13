@@ -1,6 +1,7 @@
 <script setup>
-    import {useRouter} from 'vue-router';
-    import {getAuth} from '@firebase/auth';
+import { useRouter } from 'vue-router';
+import { getAuth, onAuthStateChanged, signOut } from '@firebase/auth';
+import router from '../router';
 </script>
 
 <template>
@@ -17,8 +18,6 @@
     </div>
 </template>
 <script>
-import { onAuthStateChanged, signOut } from '@firebase/auth';
-import router from '../router';
 
 export default {
     data() {
@@ -29,18 +28,21 @@ export default {
             ort: "",
             allOrt: ["stockholm", "borås", "solna"],
             selectedOrt: ["stockholm", "borås", "solna"],
+            loggedIn: false
         }
     },
 
-    computed: { // TODO fix way to change login button to logout and vice versa
-        loggedIn() {
-            let auth = getAuth();
-            onAuthStateChanged(auth, (user) => {
-                if (user) { return true; }
-                else { return false }
-            })
-            return
-        }
+    mounted() { // TODO fix way to change login button to logout and vice versa
+        onAuthStateChanged(getAuth(), (user) => {
+            if (user) {
+                console.log("logged in");
+                this.loggedIn = true;
+            }
+            else {
+                console.log("logged out");
+                this.loggedIn = false;
+            }
+        });
     },
 
     methods: {
