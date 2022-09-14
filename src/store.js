@@ -1,5 +1,5 @@
 import { reactive } from "vue";
-import { getFirestore, collection, getDocs, QuerySnapshot } from "firebase/firestore";
+import { getFirestore, collection, getDocs, QuerySnapshot, setDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
@@ -83,19 +83,39 @@ export const data = reactive({
         console.log(querySnapshot);
         querySnapshot.forEach((doc) => {
             this.programmerare.push(doc.data())
+            this.programmerare[this.programmerare.length - 1].id = doc.id;
         });
         this.programmerare.forEach((prog) => {
-            console.log(prog.yrke);
+            console.log(prog.id);
         })
         this.programmerareIsLoaded = true;
     },
 
     addProgrammerare(name, yrke, ort, skills, price, aboutUs) {
-        this.programmerare.push(name, yrke.toLowerCase, ort.toLowerCase, skills, price, aboutUs)
+        let date = new Date();
+        let id = date.getTime().toString();    // uses ms since jan 1 1970 as id
+        this.programmerare.push({
+            name: name,
+            yrke: yrke,
+            ort: ort,
+            skills: skills,
+            price: price,
+            aboutUs: aboutUs,
+            id: id
+        });
+        setDoc(doc(db, "Programmerare", id, this.programmerare[this.programmerare.length - 1]))
+            .then(() => {
+                console.log("programmerare added");
+            })
+            .catch(() => {
+                console.error("Error occured when adding programmerare");
+            })
+
     },
 
-    addReview(programmerare, rating, reviewText) {
+    addReview(programmerare, rating, reviewText, uEmail) {
         console.log("yo");
+        console.log(uEmail);
         let index = 0;
         try {
             index = this.findProgrammerareIndex(programmerare);
@@ -105,6 +125,20 @@ export const data = reactive({
         }
         console.log("yo 2");
         this.programmerare[index].reviews.push({ rating, reviewText });
+        const currentProg = doc(db, "Programmerare", this.programmerare[index].id);
+        updateDoc(currentProg, {
+            reviews: arrayUnion({
+                rating: rating,
+                reviewText: reviewText,
+                author: uEmail
+            })
+        })
+            .then(() => {
+                console.log("review added");
+            })
+            .catch(() => {
+                console.error("error occured when adding review");
+            })
     },
 
     calculateReviewScore(programmerare) {

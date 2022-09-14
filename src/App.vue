@@ -24,7 +24,7 @@ export default {
     }
 
   },
-  created() {
+  /*created() {
     if (!data.programmerareIsLoaded) {
       console.log("loading programmerare");
       data.loadProgrammerare().then(() => {
@@ -33,7 +33,7 @@ export default {
     } else {
       console.log("programmerare is already loaded");
     }
-  }
+  }*/
 }
 </script>
 

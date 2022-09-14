@@ -1,6 +1,7 @@
 <script setup>
 import { data } from '../store.js';
 import FilterTable from './FilterTable.vue';
+import { getAuth, onAuthStateChanged } from '@firebase/auth';
 </script>
 
 <template>
@@ -22,7 +23,10 @@ import FilterTable from './FilterTable.vue';
         <div v-else-if="programmerare.length > 0">
             <div v-for="prog in programmerare" class="programmerare">
                 <div class="programmerarecolumn">
+                    <div class="nameAndContact">
                     <span>namn: {{ prog.name }}</span>
+                    <span>kontakt: {{prog.contact}}</span>
+                </div>
                     <span> yrke: {{ prog.yrke }}</span>
                     <span> ort: {{ prog.ort }}</span>
                 </div>
@@ -38,16 +42,19 @@ import FilterTable from './FilterTable.vue';
                         recensioner</button>
                     <button v-else-if="showReviewsProg === prog" @click="hideReviews">Dölj recensioner</button>
                     <span v-else></span>
-                    <button v-if="prog !== currentReviewProg" type="button" @click="beginReview(prog)">lämna en
+                    <button v-if="prog !== currentReviewProg && isLoggedIn" type="button"
+                        @click="beginReview(prog)">lämna en
                         recension</button>
-                    <button v-else type="button" @click="cancelReview">avbryt recension</button>
+                    <button v-else-if="prog === currentReviewProg" type="button" @click="cancelReview">avbryt
+                        recension</button>
+                    <span v-else></span>
                 </div>
                 <div v-if="prog === showReviewsProg">
                     <div v-for="review in prog.reviews" class="programmerarecolumn">
                         <span>poäng: {{ review.rating }}</span>
                         <span v-if="review.reviewText !== ''">beskrivning: {{ review.reviewText }}</span>
                         <span v-else>beskrivning saknas</span>
-                        <span></span>
+                        <span>från: {{review.author}}</span>
                     </div>
                 </div>
                 <div v-if="prog === currentReviewProg" class="programmerarecolumn">
@@ -62,12 +69,18 @@ import FilterTable from './FilterTable.vue';
                         </select>
                     </div>
                     <input type="text" v-model="reviewText" placeholder="beskrivning (frivilligt)">
-                    <button type="button" @click="addReview(prog, rating, reviewText)">lägg till recension</button>
+                    <button type="button" @click="addReview">lägg till
+                        recension</button>
                 </div>
             </div>
         </div>
         <div v-else class="emptyList">
             <span>Ingenting matchade dina kriterier</span>
+        </div>
+        <div>
+        </div>
+        <div  v-if="isLoggedIn" class="addProgrammerare">
+            <button type="button" @click="addProgrammerare">Lägg till programmerare</button>
         </div>
     </div>
 </template>
@@ -76,6 +89,7 @@ export default {
     data() {
         return {
             loading: false,
+            // setting yrke and ort to "" since it grabs all items in filtering 
             yrke: this.$route.params.ort === "all" ? "" : this.$route.params.ort,
             ort: this.$route.params.yrke === "all" ? "" : this.$route.params.yrke,
             sort: "",
@@ -99,7 +113,10 @@ export default {
             currentReviewProg: "",
             showReviewsProg: "",
             rating: 5,
-            reviewText: ""
+            reviewText: "",
+            isLoggedIn: false,
+            uEmail: "",
+            addingProgrammerare: false
         }
     },
     created() {
@@ -119,7 +136,23 @@ export default {
                 this.updateList();
             });
     },
+
+    mounted() {
+        onAuthStateChanged(getAuth(), (user) => {
+            if (user) {
+                console.log("logged in");
+                this.isLoggedIn = true;
+                this.uEmail = user.email;
+                console.log(this.uEmail);
+            }
+            else {
+                console.log("logged out");
+                this.isLoggedIn = false;
+            }
+        });
+    },
     methods: {
+        
         toggleAllSkills(skills) {
             this.selectedSkills = [...skills];
         },
@@ -220,7 +253,7 @@ export default {
         },
 
         addReview() {
-            data.addReview(this.currentReviewProg, this.rating, this.reviewText);
+            data.addReview(this.currentReviewProg, this.rating, this.reviewText, this.uEmail);
             this.clearReviewVariables();
             this.updateList();
         },
@@ -249,6 +282,13 @@ export default {
 
 }
 
+span {
+    font-size: calc(10px + 1vw);
+}
+
+button {
+    font-size: calc(10px + 1vw);
+}
 .programmerare {
     padding: 1.5rem;
     margin: 1.5rem;
@@ -261,6 +301,24 @@ export default {
     border-radius: 10px;
     box-shadow: 5px 5px 20px 0px blue;
     font-size: 1.5vw;
+}
+
+.addProgrammerare {
+    padding: 1.5rem;
+    margin: 1.5rem;
+    row-gap: 2vw;
+    display: grid;
+    border-style: solid;
+    border-width: 5px;
+    border-color: blue;
+    border-radius: 10px;
+    box-shadow: 5px 5px 20px 0px blue;
+    font-size: 1.5vw;
+}
+
+.nameAndContact {
+    display: flex;
+    flex-direction: column;
 }
 
 .programmerarecolumn {
