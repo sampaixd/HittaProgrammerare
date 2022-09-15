@@ -1,5 +1,5 @@
 import { reactive } from "vue";
-import { getFirestore, collection, getDocs, QuerySnapshot, setDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { getFirestore, collection, getDocs, QuerySnapshot, setDoc, doc, updateDoc, addDoc, arrayUnion } from "firebase/firestore";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
@@ -91,10 +91,10 @@ export const data = reactive({
         this.programmerareIsLoaded = true;
     },
 
-    addProgrammerare(name, yrke, ort, skills, price, aboutUs) {
+    addProgrammerare(name, yrke, ort, skills, price, aboutUs, email) {
         let date = new Date();
         let id = date.getTime().toString();    // uses ms since jan 1 1970 as id
-        this.programmerare.push({
+        /*this.programmerare.push({
             name: name,
             yrke: yrke,
             ort: ort,
@@ -102,14 +102,25 @@ export const data = reactive({
             price: price,
             aboutUs: aboutUs,
             id: id
-        });
-        setDoc(doc(db, "Programmerare", id, this.programmerare[this.programmerare.length - 1]))
+        });*/
+        addDoc(collection(db, "Programmerare", id, this.programmerare[this.programmerare.length - 1]))
             .then(() => {
                 console.log("programmerare added");
+                this.programmerare.push( {
+                    name: name,
+                    yrke: yrke,
+                    ort: ort,
+                    skills: skills,
+                    price: price,
+                    aboutUs: aboutUs,
+                    contact: email
+                })
             })
             .catch(() => {
                 console.error("Error occured when adding programmerare");
             })
+
+        
 
     },
 

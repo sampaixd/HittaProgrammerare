@@ -26,9 +26,9 @@ import { data } from '../store.js'
         </div>
         <div>
             <span>minsta pris kr</span>
-            <input type="text" v-model="minPrice" v-on:input="updateMinPrice">
+            <input type="number" v-model="minPrice" v-on:input="updateMinPrice">
             <span>högsta pris kr</span>
-            <input type="text" v-model="maxPrice" v-on:input="updateMaxPrice">
+            <input type="number" v-model="maxPrice" v-on:input="updateMaxPrice">
         </div>
     </div>
 </template>
@@ -81,29 +81,16 @@ export default {
 
     methods: {
         updateMinPrice() {
-            this.sanitizeMinPrice();
             console.log("yo 1");
             this.$emit("minPriceChange", this.minPrice)
         },
 
-        sanitizeMinPrice() {
-            if (isNaN(this.minPrice[this.minPrice.length - 1])) {
-                this.minPrice = this.minPrice.slice(0, -1);
-            }
-        },
 
         updateMaxPrice() {
-            this.sanitizeMaxPrice();
             console.log("yo 2");
             this.$emit("maxPriceChange", this.maxPrice);
         },
 
-        sanitizeMaxPrice() {
-            console.log(this.maxPrice[this.maxPrice.length - 1]);
-            if (isNaN(this.maxPrice[this.maxPrice.length - 1])) {
-                this.maxPrice = this.maxPrice.slice(0, -1);
-            }
-        },
 
         toggleAllSkills() {
             if (this.selectedSystemSkills.length === 0 && this.selectedWebSkills.length === 0) {

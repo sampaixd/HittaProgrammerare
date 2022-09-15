@@ -2,6 +2,7 @@
 import { data } from '../store.js';
 import FilterTable from './FilterTable.vue';
 import { getAuth, onAuthStateChanged } from '@firebase/auth';
+import AddProgrammerare from './AddProgrammerare.vue';
 </script>
 
 <template>
@@ -31,7 +32,7 @@ import { getAuth, onAuthStateChanged } from '@firebase/auth';
                     <span> ort: {{ prog.ort }}</span>
                 </div>
                 <div class="programmerarecolumn">
-                    <span> skills: <span v-for="skill in prog.skills"> {{ skill + ", " }}</span></span>
+                    <span> skills: <span v-for="skill in prog.skills"> {{ skill + " " }}</span></span>
                     <span>pris: {{ prog.price }} kr/mån</span>
                     <span> om oss: {{ prog.aboutUs }}</span>
                 </div>
@@ -79,9 +80,8 @@ import { getAuth, onAuthStateChanged } from '@firebase/auth';
         </div>
         <div>
         </div>
-        <div  v-if="isLoggedIn" class="addProgrammerare">
-            <button type="button" @click="addProgrammerare">Lägg till programmerare</button>
-        </div>
+        <AddProgrammerare/>
+
     </div>
 </template>
 <script>
@@ -116,7 +116,6 @@ export default {
             reviewText: "",
             isLoggedIn: false,
             uEmail: "",
-            addingProgrammerare: false
         }
     },
     created() {
@@ -262,7 +261,7 @@ export default {
             this.currentReviewProg = "";
             this.score = 5;
             this.reviewText = "";
-        }
+        },
     }
 
 }
