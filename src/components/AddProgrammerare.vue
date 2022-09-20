@@ -41,6 +41,9 @@ import { getAuth, onAuthStateChanged, signOut } from '@firebase/auth';
             </div>
             <button @click="addProgrammerare">Lägg till programmerare</button>
         </div>
+        <div v-else class="addProgrammerare">
+            <button type="button">Logga in för att lägga till programmerare</button>
+        </div>
     </div>
 </template>
 <script>

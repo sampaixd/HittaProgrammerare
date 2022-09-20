@@ -25,9 +25,9 @@ import AddProgrammerare from './AddProgrammerare.vue';
             <div v-for="prog in programmerare" class="programmerare">
                 <div class="programmerarecolumn">
                     <div class="nameAndContact">
-                    <span>namn: {{ prog.name }}</span>
-                    <span>kontakt: {{prog.contact}}</span>
-                </div>
+                        <span>namn: {{ prog.name }}</span>
+                        <span>kontakt: {{prog.contact}}</span>
+                    </div>
                     <span> yrke: {{ prog.yrke }}</span>
                     <span> ort: {{ prog.ort }}</span>
                 </div>
@@ -48,7 +48,7 @@ import AddProgrammerare from './AddProgrammerare.vue';
                         recension</button>
                     <button v-else-if="prog === currentReviewProg" type="button" @click="cancelReview">avbryt
                         recension</button>
-                    <span v-else></span>
+                    <button v-else>Logga in för att lämna en recension</button>
                 </div>
                 <div v-if="prog === showReviewsProg">
                     <div v-for="review in prog.reviews" class="programmerarecolumn">
@@ -80,8 +80,8 @@ import AddProgrammerare from './AddProgrammerare.vue';
         </div>
         <div>
         </div>
-        
-        <AddProgrammerare/>
+
+        <AddProgrammerare />
     </div>
 </template>
 <script>
@@ -151,7 +151,7 @@ export default {
         });
     },
     methods: {
-        
+
         toggleAllSkills(skills) {
             this.selectedSkills = [...skills];
         },
@@ -227,7 +227,7 @@ export default {
 
         avgRating(progreviews) {
             let totalScore = 0;
-            if (typeof(progreviews) === typeof(undefined)) {
+            if (typeof (progreviews) === typeof (undefined)) {
                 return "inga recensioner än";
             }
             progreviews.forEach((review) => totalScore += parseInt(review.rating));
@@ -291,6 +291,7 @@ span {
 button {
     font-size: calc(10px + 1vw);
 }
+
 .programmerare {
     padding: 1.5rem;
     margin: 1.5rem;
@@ -315,7 +316,7 @@ button {
     grid-template-columns: 1fr 1fr 1fr;
 }
 
-.emptyList  {
+.emptyList {
     font-size: 5.5vw;
     color: blue;
     display: flex;
@@ -326,22 +327,22 @@ button {
 
 @media only screen and (max-width: 600px) {
     .programmerare {
-    padding: 1.5rem;
-    margin: 1.5rem;
-    row-gap: 7vw;
-    display: grid;
-    grid-template-rows: 1fr auto;
-    border-style: solid;
-    border-width: 5px;
-    border-color: blue;
-    border-radius: 10px;
-    box-shadow: 5px 5px 20px 0px blue;
-    font-size: 1.5vw;
-}
+        padding: 1.5rem;
+        margin: 1.5rem;
+        row-gap: 7vw;
+        display: grid;
+        grid-template-rows: 1fr auto;
+        border-style: solid;
+        border-width: 5px;
+        border-color: blue;
+        border-radius: 10px;
+        box-shadow: 5px 5px 20px 0px blue;
+        font-size: 1.5vw;
+    }
 
-.programmerarecolumn {
-    display: grid;
-    grid-template-columns: 1fr;
+    .programmerarecolumn {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
 }
-} 
 </style>
