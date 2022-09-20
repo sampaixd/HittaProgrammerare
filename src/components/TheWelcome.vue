@@ -6,6 +6,7 @@
         <h2>Inloggad och vill lägga ut ditt jobb som programmerare? Längst ner i 
             listan av programmerare hittar du en knapp där du kan lägga upp ditt jobb.
         </h2>
+        <h2>Klicka på sigge i hörnet för att återgå till denna meny</h2>
         <h2>Om oss</h2>
         <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laborum esse reiciendis quasi, tempore totam iusto facilis nostrum doloremque dolorum porro adipisci molestias! Harum quo ea alias explicabo consectetur! Saepe, est.</span>
 

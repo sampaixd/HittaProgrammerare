@@ -6,14 +6,22 @@ import SearchBar from './SearchBar.vue';
 <template>
     <header>
         <div class="logo">
-            <img alt="Hitta Programmerare logo" class="logo" src="@/assets/SiggeDrip.jpeg" @click="returnToHome"/>
-            <h1 @lcick="returnToHome">Hitta programmerare</h1>
+            <img alt="Hitta Programmerare logo" class="logo" src="@/assets/SiggeDrip.jpeg" @click="returnToHome"
+            @mouseenter="hover = true"
+            @mouseleave="hover = false"/>
+            <h1 v-if="hover">Klicka för att gå tillbaka till huvudmenyn</h1>
+            <h1 v-else >Hitta programmerare</h1>
             <SearchBar @search="Search" @login="login" />
         </div>
     </header>
 </template>
 <script>
 export default {
+    data() {
+        return {
+            hover: false
+        }
+    },
     methods: {
         Search(ort, yrke) {
             this.$emit("search", yrke, ort);
