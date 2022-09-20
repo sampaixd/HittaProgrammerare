@@ -92,21 +92,25 @@ export const data = reactive({
     },
 
     addProgrammerare(name, yrke, ort, skills, price, aboutUs, email) {
+        console.table(this.programmerare);
+        console.log(db);
         let date = new Date();
         let id = date.getTime().toString();    // uses ms since jan 1 1970 as id
-        /*this.programmerare.push({
+        this.programmerare.push({
             name: name,
             yrke: yrke,
             ort: ort,
             skills: skills,
             price: price,
             aboutUs: aboutUs,
-            id: id
-        });*/
-        addDoc(collection(db, "Programmerare", id, this.programmerare[this.programmerare.length - 1]))
+            id: id,
+            contact: email,
+            reviews: []
+        });
+        setDoc(doc(db, "Programmerare", id), this.programmerare[this.programmerare.length - 1])
             .then(() => {
                 console.log("programmerare added");
-                this.programmerare.push( {
+                /*this.programmerare.push( {
                     name: name,
                     yrke: yrke,
                     ort: ort,
@@ -114,13 +118,13 @@ export const data = reactive({
                     price: price,
                     aboutUs: aboutUs,
                     contact: email
-                })
+                })*/
             })
             .catch(() => {
                 console.error("Error occured when adding programmerare");
-            })
+            });
 
-        
+
 
     },
 
@@ -185,7 +189,6 @@ export const data = reactive({
         yrke = yrke.toLowerCase();
         ort = ort.toLowerCase();
         if (isAllSkillsRequired) {
-            console.log("all skills");
             return this.programmerare.filter((element) =>
                 element.yrke.toLowerCase().includes(yrke) &&
                 element.ort.toLowerCase().includes(ort) &&
@@ -195,7 +198,6 @@ export const data = reactive({
             );
         }
         else {
-            console.log("en skill");
             return this.programmerare.filter((element) =>
                 element.yrke.toLowerCase().includes(yrke) &&
                 element.ort.toLowerCase().includes(ort) &&
@@ -208,7 +210,6 @@ export const data = reactive({
     },
 
     filterOneSkillRequired(progSkills, selectedSkills) {
-        console.log("i en skill algoritm");
         let foundSkill = false;
         progSkills.some((skill) => {
             if (selectedSkills.includes(skill)) {
@@ -223,7 +224,6 @@ export const data = reactive({
     },
 
     filterAllSkillsRequired(progSkills, selectedSkills) {
-        console.log("i all skills algoritm");
         let foundMissingSkill = false;
         selectedSkills.some((skill) => {
             if ((progSkills.includes(skill)) === false) {

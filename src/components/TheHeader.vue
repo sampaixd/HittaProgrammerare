@@ -6,8 +6,8 @@ import SearchBar from './SearchBar.vue';
 <template>
     <header>
         <div class="logo">
-            <img alt="Hitta Programmerare logo" class="logo" src="@/assets/SiggeDrip.jpeg"/>
-            <h1>Hitta programmerare</h1>
+            <img alt="Hitta Programmerare logo" class="logo" src="@/assets/SiggeDrip.jpeg" @click="returnToHome"/>
+            <h1 @lcick="returnToHome">Hitta programmerare</h1>
             <SearchBar @search="Search" @login="login" />
         </div>
     </header>
@@ -20,6 +20,9 @@ export default {
         },
         login() {
             this.$emit("login");
+        },
+        returnToHome() {
+            this.$emit("home");
         }
     }
 }
@@ -38,8 +41,7 @@ header {
 }
 
 h1 {
-    font-size: 3vw;
-}
+    font-size: calc(11px + 1vw)}
 
 a {
     text-decoration: none;

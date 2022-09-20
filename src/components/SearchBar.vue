@@ -11,8 +11,8 @@ import router from '../router';
             <span>Ort</span>
             <button type="button" @click="logOut" v-if="loggedIn">Logga ut</button>
             <button type="button" @click="directToLogin" v-else>Logga in</button>
-            <input v-model="yrke">
-            <input v-model="ort">
+            <input v-model="yrke" placeholder="alla yrken">
+            <input v-model="ort" placeholder="alla orter">
             <button type="submit" @click="search">Hitta programmerare</button>
         </form>
     </div>
@@ -82,16 +82,16 @@ span {
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    font-size: 1.5vw;
+    font-size: calc(9px + 1vw)
 }
 
 input {
     display: flex;
     justify-content: center;
-    font-size: 1.5vw;
+    font-size: calc(9px + 1vw)
 }
 
 button {
-    font-size: 1.5vw;
+    font-size: calc(9px + 1vw)
 }
 </style>

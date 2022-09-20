@@ -4,10 +4,11 @@ import TheHeader from './components/TheHeader.vue'
 import SearchBar from './components/SearchBar.vue'
 import TheFooter from './components/TheFooter.vue'
 import { data } from './store.js'
+import { toDisplayString } from 'vue'
 </script>
 
 <template>
-  <TheHeader @search="Search" @login="login" />
+  <TheHeader @search="Search" @login="login" @home="returnToHome"/>
   <RouterView />
   <TheFooter class="footer" />
 </template>
@@ -21,6 +22,10 @@ export default {
     login() {
       console.log("woo");
       this.$router.replace('/login');
+    },
+
+    returnToHome() {
+      this.$router.replace('/');
     }
 
   },

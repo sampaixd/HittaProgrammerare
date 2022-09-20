@@ -80,8 +80,8 @@ import AddProgrammerare from './AddProgrammerare.vue';
         </div>
         <div>
         </div>
+        
         <AddProgrammerare/>
-
     </div>
 </template>
 <script>
@@ -227,6 +227,9 @@ export default {
 
         avgRating(progreviews) {
             let totalScore = 0;
+            if (typeof(progreviews) === typeof(undefined)) {
+                return "inga recensioner än";
+            }
             progreviews.forEach((review) => totalScore += parseInt(review.rating));
             if (totalScore === 0) {
                 return "inga recensioner än";
@@ -302,19 +305,6 @@ button {
     font-size: 1.5vw;
 }
 
-.addProgrammerare {
-    padding: 1.5rem;
-    margin: 1.5rem;
-    row-gap: 2vw;
-    display: grid;
-    border-style: solid;
-    border-width: 5px;
-    border-color: blue;
-    border-radius: 10px;
-    box-shadow: 5px 5px 20px 0px blue;
-    font-size: 1.5vw;
-}
-
 .nameAndContact {
     display: flex;
     flex-direction: column;
@@ -325,9 +315,33 @@ button {
     grid-template-columns: 1fr 1fr 1fr;
 }
 
-.emptyList {
+.emptyList  {
     font-size: 5.5vw;
     color: blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
 }
+
+@media only screen and (max-width: 600px) {
+    .programmerare {
+    padding: 1.5rem;
+    margin: 1.5rem;
+    row-gap: 7vw;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    border-style: solid;
+    border-width: 5px;
+    border-color: blue;
+    border-radius: 10px;
+    box-shadow: 5px 5px 20px 0px blue;
+    font-size: 1.5vw;
+}
+
+.programmerarecolumn {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+} 
 </style>

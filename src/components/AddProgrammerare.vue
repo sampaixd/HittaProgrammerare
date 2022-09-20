@@ -107,7 +107,7 @@ export default {
             this.addingAboutUs = "";
             this.addingProgrammerare = false;
             this.nameErr = "";
-            this.yrkeErr = "wee";
+            this.yrkeErr = "";
             this.ortErr = "";
             this.skillsErr = "";
             this.priceErr = "";
@@ -143,8 +143,6 @@ export default {
                 this.skillsErr = this.sanitizeSkillsList(skills);
             }
 
-
-
             if (this.nameErr === "" &&
                 this.yrkeErr === "" &&
                 this.ortErr === "" &&
@@ -158,7 +156,6 @@ export default {
 
         // very simple since i dont really know what symbols to look out for
         sanitizeStr(item, maxLen) {
-
             if (item.includes('<') ||
                 item.includes('>') ||
                 item.includes(';') ||
@@ -204,7 +201,7 @@ export default {
     margin: 1.5rem;
     row-gap: 2vw;
     display: grid;
-    grid-template-rows: 1fr 2fr;
+    grid-template-rows: 1fr auto;
     border-style: solid;
     border-width: 5px;
     border-color: blue;
@@ -239,6 +236,29 @@ export default {
 .errorMessage {
     color: red;
     font-size: calc(5px + 1vw);
+
+}
+
+@media only screen and (max-width: 600px) {
+    .programmerare {
+        padding: 1.5rem;
+        margin: 1.5rem;
+        row-gap: 2vw;
+        display: grid;
+        grid-template-rows: 1fr auto;
+        border-style: solid;
+        border-width: 5px;
+        border-color: blue;
+        border-radius: 10px;
+        box-shadow: 5px 5px 20px 0px blue;
+        font-size: 1.5vw;
+
+    }
+
+    .programmerarecolumn {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
 
 }
 

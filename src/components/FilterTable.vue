@@ -2,7 +2,7 @@
 import { data } from '../store.js'
 </script>
     
-    <template>
+<template>
     <div>
         <div>
             <input type="checkbox" @click="allSkillsRequiredSwitch">
@@ -32,7 +32,7 @@ import { data } from '../store.js'
         </div>
     </div>
 </template>
-    <script>
+<script>
 export default {
     data() {
         return {
@@ -132,9 +132,17 @@ export default {
     }
 }
 </script>
-    <style scoped>
-    span {}
-    
-    input {}
-    </style>
+<style scoped>
+span {
+    font-size: calc(9px + 1vw)
+}
+
+input {
+    font-size: calc(9px + 1vw)
+}
+
+button{
+    font-size: calc(9px + 1vw)
+}
+</style>
     
