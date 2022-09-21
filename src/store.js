@@ -107,18 +107,29 @@ export const data = reactive({
             contact: email,
             reviews: []
         });
-        setDoc(doc(db, "Programmerare", id), this.programmerare[this.programmerare.length - 1])
+        setDoc(doc(db, "Programmerare", id), 
+        {
+            name: name,
+            yrke: yrke,
+            ort: ort,
+            skills: skills,
+            price: price,
+            aboutUs: aboutUs,
+            contact: email,
+            reviews: []
+        })
             .then(() => {
                 console.log("programmerare added");
-                /*this.programmerare.push( {
+                this.programmerare.push( {
                     name: name,
                     yrke: yrke,
                     ort: ort,
                     skills: skills,
                     price: price,
                     aboutUs: aboutUs,
-                    contact: email
-                })*/
+                    contact: email,
+                    id: id
+                })
             })
             .catch(() => {
                 console.error("Error occured when adding programmerare");
