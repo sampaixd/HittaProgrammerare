@@ -3,11 +3,11 @@ import App from './App.vue'
 import router from './router'
 import { data } from './store.js'
 
-await data.loadProgrammerare();
+data.loadProgrammerare().then(() => {
+    const app = createApp(App);
 
+    app.use(router);
 
-const app = createApp(App);
+    app.mount('#app');
+});
 
-app.use(router);
-
-app.mount('#app');
