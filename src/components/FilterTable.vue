@@ -100,10 +100,11 @@ export default {
                 this.selectedSystemSkills = [];
                 this.selectedWebSkills = [];
             }
+                let combinedSkills = this.selectedSystemSkills.concat(this.selectedWebSkills);
             console.log("swag mone");
             console.log(this.selectedSystemSkills);
             console.log(this.selectedWebSkills);
-            this.$emit("toggleAllSkills");
+            this.$emit("toggleAllSkills", combinedSkills);
         },
 
         filterSkill(selectedSkill) {

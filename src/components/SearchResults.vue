@@ -154,6 +154,7 @@ export default {
 
         toggleAllSkills(skills) {
             this.selectedSkills = [...skills];
+            this.updateList();
         },
 
         filterSkill(selectedSkill) {
